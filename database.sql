@@ -14,7 +14,7 @@ USE SoftCoreDB;
 GO
 
 -- ============================================================
---  DROP TABLES (لو هنرن الكود أكتر من مرة)
+--  DROP TABLES (Safe to run multiple times)
 -- ============================================================
 IF OBJECT_ID('PROJECT_EMPLOYEES', 'U') IS NOT NULL DROP TABLE PROJECT_EMPLOYEES;
 IF OBJECT_ID('TASKS',             'U') IS NOT NULL DROP TABLE TASKS;
@@ -48,12 +48,12 @@ CREATE TABLE JOB_TITLES (
 GO
 
 -- ── 3. DEPARTMENTS ──────────────────────────────────────────
---  manager_id يتحدث بعد ما ننشئ EMPLOYEES
+--  manager_id FK will be added after EMPLOYEES
 CREATE TABLE DEPARTMENTS (
     department_id INT IDENTITY(1,1) PRIMARY KEY,
     dept_name     VARCHAR(100) NOT NULL UNIQUE,
     description   VARCHAR(255),
-    manager_id    INT          -- FK يتضاف بعد EMPLOYEES
+    manager_id    INT          -- FK added after EMPLOYEES
 );
 GO
 
@@ -72,7 +72,7 @@ CREATE TABLE EMPLOYEES (
 );
 GO
 
--- الآن نضيف الـ FK بتاع manager_id في DEPARTMENTS
+-- Now add manager_id FK to DEPARTMENTS
 ALTER TABLE DEPARTMENTS
     ADD CONSTRAINT FK_DEPT_MGR FOREIGN KEY (manager_id)
         REFERENCES EMPLOYEES(employee_id);
@@ -145,7 +145,7 @@ GO
 -- ============================================================
 
 -- ── ADMINS ──────────────────────────────────────────────────
--- password = "admin123" (hashed بـ SHA2_256 كمثال)
+-- password = "admin123" (hashed with SHA2_256)
 INSERT INTO ADMINS (username, password_hash) VALUES
 ('admin',    CONVERT(VARCHAR(255), HASHBYTES('SHA2_256', 'admin123'),   2)),
 ('superadmin', CONVERT(VARCHAR(255), HASHBYTES('SHA2_256', 'super456'), 2));
@@ -165,13 +165,13 @@ INSERT INTO JOB_TITLES (title_name) VALUES
 ('Team Lead');
 GO
 
--- ── DEPARTMENTS (بدون manager_id الأول) ─────────────────────
+-- ── DEPARTMENTS (without manager_id first) ──────────────────
 INSERT INTO DEPARTMENTS (dept_name, description) VALUES
-('Web Development',     'تطوير تطبيقات وموقع الويب'),
-('Mobile Development',  'تطوير تطبيقات الموبايل iOS و Android'),
-('AI & Data',           'الذكاء الاصطناعي وتحليل البيانات'),
-('Cybersecurity',       'أمن المعلومات واختبار الاختراق'),
-('UI/UX Design',        'تصميم واجهات المستخدم وتجربة الاستخدام');
+('Web Development',     'Develops web applications and websites'),
+('Mobile Development',  'Develops iOS and Android mobile applications'),
+('AI & Data',           'Artificial intelligence and data analysis'),
+('Cybersecurity',       'Information security and penetration testing'),
+('UI/UX Design',        'User interface and user experience design');
 GO
 
 -- ── EMPLOYEES ───────────────────────────────────────────────
@@ -198,7 +198,7 @@ INSERT INTO EMPLOYEES (full_name, phone, email, hire_date, job_title, salary, de
 ('Tarek Wael',       '01001122334', 'tarek.wael@softcore.com',      '2023-05-15', 'UI/UX Designer',           17500.00, 5);
 GO
 
--- ── تحديث مديري الأقسام ─────────────────────────────────────
+-- Update department managers
 UPDATE DEPARTMENTS SET manager_id = 1  WHERE department_id = 1; -- Ahmed Kamal
 UPDATE DEPARTMENTS SET manager_id = 4  WHERE department_id = 2; -- Sara Hassan
 UPDATE DEPARTMENTS SET manager_id = 6  WHERE department_id = 3; -- Rana Ibrahim
@@ -229,29 +229,29 @@ GO
 -- ── TASKS ───────────────────────────────────────────────────
 INSERT INTO TASKS (title, description, status, due_date, project_id, assigned_to) VALUES
 -- NileTech E-Commerce (proj 1)
-('Design UI mockups',       'تصميم شاشات التطبيق كاملة',           'Done',        '2024-02-28', 1, 10),
-('Setup backend API',       'بناء الـ REST API بلغة Java',           'In Progress', '2024-05-15', 1, 2),
-('Integrate payment gateway','ربط بوابة الدفع الإلكتروني',           'To Do',       '2024-07-01', 1, 5),
-('QA & Testing',            'اختبار جميع وظائف التطبيق',             'To Do',       '2024-09-01', 1, 4),
+('Design UI mockups',       'Design all application screens',           'Done',        '2024-02-28', 1, 10),
+('Setup backend API',       'Build the REST API using Java',           'In Progress', '2024-05-15', 1, 2),
+('Integrate payment gateway','Integrate the electronic payment gateway',           'To Do',       '2024-07-01', 1, 5),
+('QA & Testing',            'Test all application features',             'To Do',       '2024-09-01', 1, 4),
 
 -- BankCo Security Audit (proj 2)
-('Penetration testing',     'اختبار اختراق شامل للأنظمة',            'Done',        '2024-05-30', 2, 8),
-('Vulnerability report',    'إعداد تقرير الثغرات الأمنية',           'In Progress', '2024-08-15', 2, 9),
+('Penetration testing',     'Comprehensive penetration testing for all systems',            'Done',        '2024-05-30', 2, 8),
+('Vulnerability report',    'Prepare the security vulnerabilities report',           'In Progress', '2024-08-15', 2, 9),
 
 -- DataCorp AI Dashboard (proj 3)
-('Data pipeline setup',     'إعداد خطوط معالجة البيانات',            'To Do',       '2024-08-01', 3, 6),
-('ML model training',       'تدريب نموذج التنبؤ',                    'To Do',       '2024-10-01', 3, 7),
-('Dashboard frontend',      'بناء واجهة العرض التفاعلية',            'To Do',       '2024-11-15', 3, 3),
+('Data pipeline setup',     'Set up data processing pipelines',            'To Do',       '2024-08-01', 3, 6),
+('ML model training',       'Train the prediction model',                    'To Do',       '2024-10-01', 3, 7),
+('Dashboard frontend',      'Build the interactive display dashboard',            'To Do',       '2024-11-15', 3, 3),
 
 -- RetailZone Website (proj 4)
-('Homepage design',         'تصميم الصفحة الرئيسية',                'Done',        '2023-10-15', 4, 10),
-('CMS integration',         'ربط نظام إدارة المحتوى',               'Done',        '2024-01-20', 4, 3),
-('Launch & deployment',     'نشر الموقع على السيرفر',               'Done',        '2024-04-25', 4, 2),
+('Homepage design',         'Design the homepage',                'Done',        '2023-10-15', 4, 10),
+('CMS integration',         'Integrate the content management system',               'Done',        '2024-01-20', 4, 3),
+('Launch & deployment',     'Deploy the website to the server',               'Done',        '2024-04-25', 4, 2),
 
 -- HealthPlus Mobile App (proj 5)
-('App architecture design', 'تصميم هيكل التطبيق',                   'Done',        '2024-05-01', 5, 5),
-('Patient registration UI', 'شاشة تسجيل المرضى',                    'In Progress', '2024-07-15', 5, 4),
-('Appointment booking',     'نظام حجز المواعيد',                    'To Do',       '2024-09-30', 5, 5);
+('App architecture design', 'Design the application architecture',                   'Done',        '2024-05-01', 5, 5),
+('Patient registration UI', 'Patient registration screen',                    'In Progress', '2024-07-15', 5, 4),
+('Appointment booking',     'Appointment booking system',                    'To Do',       '2024-09-30', 5, 5);
 GO
 
 -- ── PROJECT_EMPLOYEES ────────────────────────────────────────
@@ -271,7 +271,7 @@ INSERT INTO PROJECT_EMPLOYEES (project_id, employee_id) VALUES
 GO
 
 -- ============================================================
---  VERIFY — عرض بيانات تجريبية
+--  VERIFY — Sample data preview
 -- ============================================================
 PRINT '── ADMINS ──';
 SELECT * FROM ADMINS;
