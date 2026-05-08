@@ -1,3 +1,15 @@
 /build/
+<<<<<<< HEAD
+/dist/
+/nbproject/private/
+
+nbproject/project.properties
+*.class
+
+*.db
+*.mdf
+*.ldf
+=======
 /nbproject/private/
 *.class
+>>>>>>> a77bbe57509cd48ed16f4b894a42fbcbefb1daa8

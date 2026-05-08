@@ -3,10 +3,13 @@ package advancedsoftware;
 import java.sql.*;
 public class AdvancedSoftware {
 
-    /**
-     * @param args the command line arguments
-     */
     public static void main(String[] args) {
+<<<<<<< HEAD
+        
+        
+  
+    
+=======
         // TODO code application logic here
 <<<<<<< HEAD
         MainFrame IF = new MainFrame();
@@ -22,6 +25,7 @@ public class AdvancedSoftware {
         frame.add(new Projects());
         frame.setVisible(true);
 >>>>>>> b822f8440cfea6ce6209fa1a0c0d7922afa91b2e
+>>>>>>> a77bbe57509cd48ed16f4b894a42fbcbefb1daa8
     }
     
    
