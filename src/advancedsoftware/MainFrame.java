@@ -31,21 +31,21 @@ public class MainFrame extends javax.swing.JFrame {
         jTabbedPane1 = new javax.swing.JTabbedPane();
         dashboard1 = new advancedsoftware.Dashboard();
         employees1 = new advancedsoftware.Employees();
-        projects1 = new advancedsoftware.Projects();
         tasks1 = new advancedsoftware.Tasks();
         clients1 = new advancedsoftware.Clients();
         departments1 = new advancedsoftware.Departments();
         admin_Profile1 = new advancedsoftware.Admin_Profile();
+        projects1 = new advancedsoftware.Projects();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jTabbedPane1.addTab("Dashboard", dashboard1);
         jTabbedPane1.addTab("Employees", employees1);
-        jTabbedPane1.addTab("Projects", projects1);
         jTabbedPane1.addTab("Tasks", tasks1);
         jTabbedPane1.addTab("Clients", clients1);
         jTabbedPane1.addTab("Departments", departments1);
         jTabbedPane1.addTab("Admin Profile", admin_Profile1);
+        jTabbedPane1.addTab("Projects", projects1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -55,7 +55,10 @@ public class MainFrame extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 613, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 601, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         pack();
