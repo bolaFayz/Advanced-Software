@@ -4,6 +4,9 @@
  */
 package advancedsoftware;
 
+import javax.swing.JOptionPane;
+import java.sql.*;
+
 /**
  *
  * @author bola-fayz
@@ -11,12 +14,31 @@ package advancedsoftware;
 public class MainFrame extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(MainFrame.class.getName());
+    
+       
+    
+    private final String url = "jdbc:sqlserver://localhost\\SQLEXPRESS;databaseName=SoftCoreDB;encrypt=true;trustServerCertificate=true";
+    String userName = "SWE2DB";
+    String passWord = "1234";
 
     /**
      * Creates new form MainFrame
      */
     public MainFrame() {
         initComponents();
+        
+        
+        try {
+    Connection con = DriverManager.getConnection(url, userName, passWord);
+    Statement stmt = con.createStatement();
+
+    stmt.close();
+    con.close();
+
+    } catch(SQLException ex){
+    ex.printStackTrace();
+       }
+        
     }
 
     /**
@@ -51,11 +73,15 @@ public class MainFrame extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 839, Short.MAX_VALUE)
+            .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1056, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+<<<<<<< HEAD
+            .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 689, Short.MAX_VALUE)
+=======
             .addComponent(jTabbedPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 613, Short.MAX_VALUE)
+>>>>>>> b822f8440cfea6ce6209fa1a0c0d7922afa91b2e
         );
 
         pack();
