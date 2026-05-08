@@ -59,7 +59,7 @@ public class Departments extends javax.swing.JPanel {
 
                 String managerName = rs.getString("full_name");
                 if (managerName == null) {
-                    managerName = "No Manager"; // لو ملوش مدير
+                    managerName = "No Manager"; 
                 }
                 model.addRow(new Object[]{
                     rs.getInt("department_id"),

@@ -1,0 +1,10 @@
+/build/
+/dist/
+/nbproject/private/
+
+nbproject/project.properties
+*.class
+
+*.db
+*.mdf
+*.ldf
