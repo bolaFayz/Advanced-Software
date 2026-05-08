@@ -77,7 +77,11 @@ public class MainFrame extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+<<<<<<< HEAD
             .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 689, Short.MAX_VALUE)
+=======
+            .addComponent(jTabbedPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 613, Short.MAX_VALUE)
+>>>>>>> b822f8440cfea6ce6209fa1a0c0d7922afa91b2e
         );
 
         pack();
