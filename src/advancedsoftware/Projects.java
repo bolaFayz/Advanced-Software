@@ -15,7 +15,31 @@ public class Projects extends javax.swing.JPanel {
      */
     public Projects() {
         initComponents();
+        loadTableData();
     }
+
+    private void loadTableData() {
+        javax.swing.table.DefaultTableModel model = (javax.swing.table.DefaultTableModel) jTable1.getModel();
+        model.setRowCount(0);
+
+        // بنجيب البيانات من الداتا بيز بالترتيب المناسب لأعمدة الجدول
+        try (java.sql.Connection conn = DatabaseManager.getConnection(); java.sql.ResultSet rs = conn.createStatement().executeQuery("SELECT project_name, price, client_id, manager_id, department_id FROM PROJECTS")) {
+
+            while (rs.next()) {
+                model.addRow(new Object[]{
+                    rs.getString("project_name"),
+                    rs.getDouble("price"),
+                    rs.getInt("client_id"),
+                    rs.getInt("manager_id"),
+                    rs.getInt("department_id")
+                });
+            }
+        } catch (Exception e) {
+            javax.swing.JOptionPane.showMessageDialog(this, "خطأ في تحميل الجدول: " + e.getMessage());
+        }
+    }
+    
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -27,29 +51,263 @@ public class Projects extends javax.swing.JPanel {
     private void initComponents() {
 
         jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        budget = new javax.swing.JTextField();
+        client = new javax.swing.JTextField();
+        mana = new javax.swing.JTextField();
+        proname = new javax.swing.JTextField();
+        deb = new javax.swing.JTextField();
+        addProj = new javax.swing.JButton();
+        deleproj = new javax.swing.JButton();
+        updatepro = new javax.swing.JButton();
+        SelectProj = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
 
+        jLabel1.setFont(new java.awt.Font("Liberation Sans", 1, 24)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(0, 0, 255));
         jLabel1.setText("Projects Page");
+
+        jLabel2.setText("prject Name");
+
+        jLabel3.setText("Budget");
+
+        jLabel4.setText("Client");
+
+        jLabel5.setText("Manager");
+
+        jLabel6.setText("Department");
+
+        budget.addActionListener(this::budgetActionPerformed);
+
+        client.addActionListener(this::clientActionPerformed);
+
+        mana.addActionListener(this::manaActionPerformed);
+
+        proname.addActionListener(this::pronameActionPerformed);
+
+        deb.addActionListener(this::debActionPerformed);
+
+        addProj.setText("Add Project");
+        addProj.addActionListener(this::addProjActionPerformed);
+
+        deleproj.setText("Delete Project");
+        deleproj.addActionListener(this::deleprojActionPerformed);
+
+        updatepro.setText("Update Project");
+        updatepro.addActionListener(this::updateproActionPerformed);
+
+        SelectProj.setText("Select Projects");
+        SelectProj.addActionListener(this::SelectProjActionPerformed);
+
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
+            },
+            new String [] {
+                "Name", "Budget", "Client", "Manager", "Departemnt"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                true, true, true, true, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane1.setViewportView(jTable1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(176, 176, 176)
-                .addComponent(jLabel1)
-                .addContainerGap(132, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(15, 15, 15)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel3)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(budget, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel2)
+                                .addGap(18, 18, 18)
+                                .addComponent(proname, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel4)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(client, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addComponent(jLabel5)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(mana, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                            .addGap(25, 25, 25)
+                                            .addComponent(addProj)
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addComponent(deleproj))
+                                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                            .addComponent(jLabel6)
+                                            .addGap(18, 18, 18)
+                                            .addComponent(deb, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addGap(253, 253, 253)
+                                .addComponent(SelectProj))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(173, 173, 173)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(362, 362, 362)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(updatepro)
+                            .addComponent(jLabel1))))
+                .addContainerGap(387, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(146, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(35, 35, 35)
                 .addComponent(jLabel1)
-                .addGap(136, 136, 136))
+                .addGap(26, 26, 26)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2)
+                    .addComponent(proname, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(24, 24, 24)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3)
+                    .addComponent(budget, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(22, 22, 22)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel4)
+                    .addComponent(client, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel5)
+                    .addComponent(mana, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(20, 20, 20)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel6)
+                    .addComponent(deb, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(46, 46, 46)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(addProj)
+                    .addComponent(deleproj)
+                    .addComponent(updatepro)
+                    .addComponent(SelectProj))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 265, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void budgetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_budgetActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_budgetActionPerformed
+
+    private void clientActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clientActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_clientActionPerformed
+
+    private void manaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_manaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_manaActionPerformed
+
+    private void pronameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pronameActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_pronameActionPerformed
+
+    private void debActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_debActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_debActionPerformed
+
+    private void addProjActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addProjActionPerformed
+        try (java.sql.Connection conn = DatabaseManager.getConnection(); java.sql.PreparedStatement ps = conn.prepareStatement("INSERT INTO PROJECTS (project_name, status , price, manager_id, client_id, department_id) VALUES (?, 'active', ?, ?, ?, ?)")) {
+            ps.setString(1, proname.getText()); // بناخد اسم المشروع من التيكست بوكس
+            ps.setDouble(2, Double.parseDouble(budget.getText())); // بنحول الميزانية لرقم عشري
+            ps.setInt(3, Integer.parseInt(mana.getText())); // بناخد اسم المدير
+            ps.setInt(4, Integer.parseInt(client.getText())); // بناخد اسم العميل
+            ps.setInt(5, Integer.parseInt(deb.getText())); // بناخد اسم القسم
+
+            ps.executeUpdate(); // بننفذ الأمر عشان البيانات تتحفظ بجد
+            loadTableData(); // تحديث الجدول بالبيانات الجديدة
+            javax.swing.JOptionPane.showMessageDialog(this, "Project Added successfully"); // بنطلع رسالة نجاح للمستخدم
+
+        } catch (Exception e) {
+            javax.swing.JOptionPane.showMessageDialog(this, e.getMessage()); // لو حصل مشكلة بنعرض الخطأ
+
+    }//GEN-LAST:event_addProjActionPerformed
+    }
+    private void deleprojActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleprojActionPerformed
+        try (java.sql.Connection conn = DatabaseManager.getConnection(); java.sql.PreparedStatement ps = conn.prepareStatement("DELETE FROM PROJECTS WHERE project_name = ?")) {
+
+            ps.setString(1, proname.getText()); // بناخد الاسم المكتوب في التيكست بوكس
+            ps.executeUpdate(); // بننفذ أمر الحذف في الداتا بيز
+            loadTableData(); // تحديث الجدول بالبيانات المعدلة
+
+            javax.swing.JOptionPane.showMessageDialog(this, "Project Deleted successfully "); // بنظهر رسالة تأكيد
+        } catch (Exception e) {
+            javax.swing.JOptionPane.showMessageDialog(this, e.getMessage()); // بنعرض الخطأ لو حصل
+        }
+    }//GEN-LAST:event_deleprojActionPerformed
+
+    private void updateproActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateproActionPerformed
+        try (java.sql.Connection conn = DatabaseManager.getConnection(); java.sql.PreparedStatement ps = conn.prepareStatement("UPDATE PROJECTS SET price=?, manager=?, client=?, department=? WHERE project_name=?")) {
+
+            ps.setDouble(1, Double.parseDouble(budget.getText())); // بنحدث الميزانية
+            ps.setString(2, mana.getText()); // بنحدث اسم المدير
+            ps.setString(3, client.getText()); // بنحدث اسم العميل
+            ps.setString(4, deb.getText()); // بنحدث اسم القسم
+            ps.setString(5, proname.getText()); // ده اسم المشروع اللي بندور عليه عشان نعدله
+
+            ps.executeUpdate(); // بننفذ التعديل في الداتا بيز
+            loadTableData(); // تحديث الجدول بالبيانات المعدلة
+            javax.swing.JOptionPane.showMessageDialog(this, "Project Updated successfully"); // بنطلع رسالة التأكيد
+        } catch (Exception e) {
+            javax.swing.JOptionPane.showMessageDialog(this, e.getMessage()); // عرض الخطأ لو موجود
+        }
+    }//GEN-LAST:event_updateproActionPerformed
+
+    private void SelectProjActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SelectProjActionPerformed
+        int row = jTable1.getSelectedRow(); // بنجيب رقم الصف اللي المستخدم اختاره من الجدول
+        if (row == -1) {
+            return; // لو مفيش صف متحدد، بنوقف التنفيذ فوراً عشان ميحصلش إيرور
+        }
+        // بنسحب البيانات من أعمدة الجدول بالترتيب ونعبيها في التيكست بوكس
+        proname.setText(jTable1.getValueAt(row, 0).toString());
+        budget.setText(jTable1.getValueAt(row, 1).toString());
+        mana.setText(jTable1.getValueAt(row, 2).toString());
+        client.setText(jTable1.getValueAt(row, 3).toString());
+        deb.setText(jTable1.getValueAt(row, 4).toString());
+    }//GEN-LAST:event_SelectProjActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton SelectProj;
+    private javax.swing.JButton addProj;
+    private javax.swing.JTextField budget;
+    private javax.swing.JTextField client;
+    private javax.swing.JTextField deb;
+    private javax.swing.JButton deleproj;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTable jTable1;
+    private javax.swing.JTextField mana;
+    private javax.swing.JTextField proname;
+    private javax.swing.JButton updatepro;
     // End of variables declaration//GEN-END:variables
 }
