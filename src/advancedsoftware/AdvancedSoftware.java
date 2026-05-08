@@ -1,5 +1,6 @@
 package advancedsoftware;
 
+import java.sql.*;
 public class AdvancedSoftware {
 
     /**
@@ -7,7 +8,8 @@ public class AdvancedSoftware {
      */
     public static void main(String[] args) {
         // TODO code application logic here
-        System.out.println("Hello");
+            Connection conn = DatabaseManager.getConnection();        
     }
+    
    
 }
